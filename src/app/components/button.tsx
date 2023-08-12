@@ -1,14 +1,19 @@
-import { PropsWithChildren } from "react";
+import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import { css } from "../../../styled-system/css";
 
-type Props = {
+type BaseButtonProps = {
+  type?: HTMLButtonElement["type"];
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
+type Props = BaseButtonProps & ButtonHTMLAttributes<HTMLButtonElement>;
+
 export function Button({
+  type = "button",
   disabled = false,
   onClick,
   children,
+  ...props
 }: PropsWithChildren<Props>): JSX.Element {
   return (
     <button
@@ -24,6 +29,7 @@ export function Button({
       })}
       disabled={disabled}
       onClick={onClick}
+      {...props}
     >
       {children}
     </button>
