@@ -24,7 +24,7 @@ export default function Home() {
     } catch (error) {
       console.error("Error calling API:", error);
     }
-  }, []);
+  }, [inputArea]);
 
   return (
     <Container>
