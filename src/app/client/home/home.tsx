@@ -14,7 +14,6 @@ export default function Home() {
 
   const onSubmit = useCallback(async () => {
     try {
-      console.log(inputArea);
       const response = await apiClient.translate(inputArea);
       if (response && response.translatedText) {
         setOutput(response.translatedText);
