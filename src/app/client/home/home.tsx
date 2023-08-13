@@ -2,12 +2,12 @@
 import { useCallback, useState } from "react";
 import { Container } from "../../components/container";
 import { Button } from "../../components/button";
-import axios from "axios";
 import { css } from "../../../../styled-system/css";
 import { useForm } from "react-hook-form";
 import { TextArea } from "@/app/components/textarea";
 import { Title } from "@/app/components/title";
 import { Box } from "@/app/components/box";
+import { apiClient } from "@/app/boundary/api/api-client";
 
 type FormData = {
   inputArea: string;
@@ -19,13 +19,11 @@ export default function Home() {
 
   const onSubmit = useCallback(async (data: FormData) => {
     try {
-      const response = await axios.post("/api/translate", {
-        text: data.inputArea,
-      });
-      if (response.data && response.data.translatedText) {
-        setOutput(response.data.translatedText);
+      const response = await apiClient.translate(data.inputArea);
+      if (response && response.translatedText) {
+        setOutput(response.translatedText);
       } else {
-        console.error("Error in response:", response.data);
+        console.error("Error in response:", response);
       }
     } catch (error) {
       console.error("Error calling API:", error);
