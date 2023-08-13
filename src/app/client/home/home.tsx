@@ -1,25 +1,21 @@
 "use client";
 import { useCallback, useState } from "react";
-import { Container } from "../../components/container";
-import { Button } from "../../components/button";
+import { Container } from "@/app/components/container";
+import { Button } from "@/app/components/button";
 import { css } from "../../../../styled-system/css";
-import { useForm } from "react-hook-form";
 import { TextArea } from "@/app/components/textarea";
 import { Title } from "@/app/components/title";
 import { Box } from "@/app/components/box";
 import { apiClient } from "@/app/boundary/api/api-client";
 
-type FormData = {
-  inputArea: string;
-};
-
 export default function Home() {
+  const [inputArea, setInputArea] = useState<string>("");
   const [output, setOutput] = useState<string>("");
-  const { register, handleSubmit, setValue } = useForm<FormData>();
 
-  const onSubmit = useCallback(async (data: FormData) => {
+  const onSubmit = useCallback(async () => {
     try {
-      const response = await apiClient.translate(data.inputArea);
+      console.log(inputArea);
+      const response = await apiClient.translate(inputArea);
       if (response && response.translatedText) {
         setOutput(response.translatedText);
       } else {
@@ -33,15 +29,16 @@ export default function Home() {
   return (
     <Container>
       <Title title="Translation App"></Title>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Box>
-          <TextArea
-            placeholder="Input text"
-            {...register("inputArea", { required: "入力してください" })}
-          />
-          <Button type="submit">Translate</Button>
-        </Box>
-      </form>
+      <Box>
+        <TextArea
+          placeholder="Input text"
+          value={inputArea}
+          onChange={(e) => setInputArea(e.target.value)}
+        />
+        <Button type="submit" onClick={onSubmit}>
+          Translate
+        </Button>
+      </Box>
       <Box>
         <textarea
           className={css({
