@@ -1,5 +1,4 @@
 import { makeOpenaiClient } from "@/app/boundary/openai/make-openai-client";
-import { NextApiRequest } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import { isJapanese } from "./is-japanese";
 import { asString } from "@/utils/assert-string";
@@ -14,9 +13,9 @@ export async function POST(req: NextRequest): Promise<Response> {
   let promptText;
 
   if (isJapanese(text)) {
-    promptText = `Translate this Japanese text to Native English: "${text}"`;
+    promptText = `「${text}」Please translate this sentence into native English that would be used in daily life. Please correct any errors in the sentence. No explanations necessary, only the translated sentence.`;
   } else {
-    promptText = `Translate this English text to Native Japanese: "${text}"`;
+    promptText = `「${text}」Please translate this sentence into native Japanese that would be used in daily life. Please correct any errors in the sentence. No explanations necessary, only the translated sentence.`;
   }
 
   try {
